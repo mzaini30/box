@@ -2,6 +2,11 @@
 	<br>
 	<h1 class="text-center">Box</h1>
 	<hr>
+	<form on:submit|preventDefault={mulaiCari}>
+		<div class="form-group">
+			<input type="search" class="form-control" placeholder="Cari apa?" bind:value={cari} name="" required>
+		</div>
+	</form>
 	<div class="list-group">
 		{#each data as x}
 			<a href="#/{x.slug}" class="list-group-item list-group-item-action">{x.judul}</a>
@@ -17,12 +22,16 @@
 	import {cekPassword} from '../cekPassword.js'
 	import {apiData} from '../api.js'
 	let data = []
+	let cari = ''
 	onMount(() => {
 		cekPassword()
 		fetch(apiData).then(x => x.json()).then(x => {
 			data = x.reverse()
 		})
 	})
+	const mulaiCari = () => {
+		push(`/cari/${encodeURIComponent(cari)}`)
+	}
 </script>
 <style type="text/css">
 	.list-group {

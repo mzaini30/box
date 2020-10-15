@@ -2,11 +2,13 @@
   "version": 3,
   "file": "bundle.css",
   "sources": [
-    "App.svelte"
+    "Beranda.svelte",
+    "Tampil.svelte"
   ],
   "sourcesContent": [
-    "<script>\n\texport let name;\n</script>\n\n<main>\n\t<h1>Hello {name}!</h1>\n\t<p>Visit the <a href=\"https://svelte.dev/tutorial\">Svelte tutorial</a> to learn how to build Svelte apps.</p>\n</main>\n\n<style> \n\tmain {\n\t\ttext-align: center;\n\t\tpadding: 1em;\n\t\tmax-width: 240px;\n\t\tmargin: 0 auto;\n\t}\n\n\th1 {\n\t\tcolor: #ff3e00;\n\t\ttext-transform: uppercase;\n\t\tfont-size: 4em;\n\t\tfont-weight: 100;\n\t}\n\n\t@media (min-width: 640px) {\n\t\tmain {\n\t\t\tmax-width: none;\n\t\t}\n\t}\n</style>\n"
+    "<div class=\"container\">\n\t<br>\n\t<h1 class=\"text-center\">Box</h1>\n\t<hr>\n\t<div class=\"list-group\">\n\t\t{#each data as x}\n\t\t\t<a href=\"#/{x.slug}\" class=\"list-group-item list-group-item-action\">{x.judul}</a>\n\t\t{/each}\n\t</div>\n</div>\n<div class=\"bawah\">\n\t<a href=\"#/tulis\" class=\"btn btn-info\">&#9998;</a>\n</div>\n<script type=\"text/javascript\">\n\timport {onMount} from 'svelte'\n\timport {push} from 'svelte-spa-router'\n\timport {cekPassword} from '../cekPassword.js'\n\timport {apiData} from '../api.js'\n\tlet data = []\n\tonMount(() => {\n\t\tcekPassword()\n\t\tfetch(apiData).then(x => x.json()).then(x => {\n\t\t\tdata = x.reverse()\n\t\t})\n\t})\n</script>\n<style type=\"text/css\">\n\t.list-group {\n\t\tmargin-bottom: 80px;\n\t}\n</style>",
+    "<div class=\"container\">\n\t<br>\n\t<h1 class=\"text-center\">{data.judul}</h1>\n\t<hr>\n\t<p><code>{data.waktu}</code></p>\n\t<div class=\"isinya\">\n\t\t{@html data.isi}\n\t</div>\n</div>\n<div class=\"bawah\">\n\t<div on:click={hapus} class=\"btn btn-danger\">&times;</div>\n\t<a href=\"#/{params.slug}/edit\" class=\"btn btn-warning\">&#9997;</a>\n\t<a href=\"#/\" class=\"btn btn-success\">&#9750;</a>\n</div>\n<script type=\"text/javascript\">\n\timport {onMount} from 'svelte'\n\timport {apiData} from '../api.js'\n\timport {cekPassword} from '../cekPassword.js'\n\timport {push} from 'svelte-spa-router'\n\texport let params\n\tlet data = {\n\t\tjudul: '',\n\t\twaktu: '',\n\t\tisi: ''\n\t}\n\tconst hapus = () => {\n\t\tlet tanya = confirm('Hapus kah?')\n\t\tif (tanya) {\n\t\t\tfetch(apiData).then(x => x.json()).then(z => {\n\t\t\t\tz = z.filter(y => y.slug != params.slug)\n\t\t\t\tlet body = new FormData\n\t\t\t\tbody.append('json', JSON.stringify(z))\n\t\t\t\tfetch(`${apiData}/ubah`, {\n\t\t\t\t\tmethod: 'post',\n\t\t\t\t\tbody\n\t\t\t\t}).then(() => push('/'))\n\t\t\t})\n\t\t}\n\t}\n\tonMount(() => {\n\t\tcekPassword()\n\t\tfetch(apiData).then(x => x.json()).then(x => {\n\t\t\tx = x.filter(y => y.slug == params.slug)\n\t\t\tdata = x[0]\n\t\t\tdata.isi = marked(x[0].isi)\n\t\t})\n\t})\n</script>\n<style type=\"text/css\">\n\t.isinya {\n\t\tmargin-bottom: 75px;\n\t}\n</style>"
   ],
   "names": [],
-  "mappings": "AAUC,IAAI,eAAC,CAAC,AACL,UAAU,CAAE,MAAM,CAClB,OAAO,CAAE,GAAG,CACZ,SAAS,CAAE,KAAK,CAChB,MAAM,CAAE,CAAC,CAAC,IAAI,AACf,CAAC,AAED,EAAE,eAAC,CAAC,AACH,KAAK,CAAE,OAAO,CACd,cAAc,CAAE,SAAS,CACzB,SAAS,CAAE,GAAG,CACd,WAAW,CAAE,GAAG,AACjB,CAAC,AAED,MAAM,AAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AAC1B,IAAI,eAAC,CAAC,AACL,SAAS,CAAE,IAAI,AAChB,CAAC,AACF,CAAC"
+  "mappings": "AA2BC,WAAW,cAAC,CAAC,AACZ,aAAa,CAAE,IAAI,AACpB,CAAC;ACoBD,OAAO,cAAC,CAAC,AACR,aAAa,CAAE,IAAI,AACpB,CAAC"
 }

@@ -38,3 +38,6 @@
 		margin-bottom: 80px;
 	}
 </style>
+<svelte:head>
+	<title>Box</title>
+</svelte:head>

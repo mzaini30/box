@@ -41,3 +41,6 @@
 		<a href="#/" class="btn btn-info">&#9750;</a>
 	</div>
 </form>
+<svelte:head>
+	<title>Tulis baru</title>
+</svelte:head>

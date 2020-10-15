@@ -51,3 +51,6 @@
 		margin-bottom: 80px;
 	}
 </style>
+<svelte:head>
+	<title>Cari {decodeURIComponent(params.cari)}</title>
+</svelte:head>

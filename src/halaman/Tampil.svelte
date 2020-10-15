@@ -51,3 +51,6 @@
 		margin-bottom: 75px;
 	}
 </style>
+<svelte:head>
+	<title>{data.judul}</title>
+</svelte:head>

@@ -1,30 +1,18 @@
-<script>
-	export let name;
+<script type="text/javascript">
+	import Router from 'svelte-spa-router'
+	import Beranda from './halaman/Beranda.svelte'
+	import Login from './halaman/Login.svelte'
+	import Tulis from './halaman/Tulis.svelte'
+	import Tampil from './halaman/Tampil.svelte'
+	import Edit from './halaman/Edit.svelte'
+	import Cari from './halaman/Cari.svelte'
+	const routes = {
+		'/': Beranda,
+		'/login': Login,
+		'/tulis': Tulis,
+		'/cari/:cari': Cari,
+		'/:slug': Tampil,
+		'/:slug/edit': Edit
+	}
 </script>
-
-<main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
-
-<style> 
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
-</style>
+<Router {routes}/>

@@ -38,7 +38,6 @@
 	<textarea class="form-control" bind:value={isi} bind:this={elIsi} placeholder="Isi"></textarea>
 	<div class="bawah">
 		<input type="submit" class="btn btn-success" value="&check;" name="">
-		<a href="#/" class="btn btn-info">&#9750;</a>
 	</div>
 </form>
 <svelte:head>

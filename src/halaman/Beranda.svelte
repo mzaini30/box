@@ -14,6 +14,7 @@
 	</div>
 </div>
 <div class="bawah">
+	<div on:click={keluar} class="btn btn-danger">&#9986;</div>
 	<a href="#/tulis" class="btn btn-info">&#9998;</a>
 </div>
 <script type="text/javascript">
@@ -31,6 +32,10 @@
 	})
 	const mulaiCari = () => {
 		push(`/cari/${encodeURIComponent(cari)}`)
+	}
+	const keluar = () => {
+		localStorage.removeItem('password')
+		push('/login')
 	}
 </script>
 <style type="text/css">

@@ -21,6 +21,7 @@
 	import {push} from 'svelte-spa-router'
 	import {cekPassword} from '../cekPassword.js'
 	import {apiData} from '../api.js'
+	import {isLoading} from '../store.js'
 	export let params
 	let data = []
 	let cari = ''
@@ -32,7 +33,9 @@
 	})
 	$: if (params){
 		let yangDicari = decodeURIComponent(params.cari)
+		$isLoading = true
 		fetch(apiData).then(x => x.json()).then(x => {
+			$isLoading = false
 			data = x.reverse().filter(y => y.judul.toLowerCase().includes(yangDicari.toLowerCase()) || y.isi.toLowerCase().includes(yangDicari.toLowerCase()))
 			if (data.length == 0) {
 				data = [{

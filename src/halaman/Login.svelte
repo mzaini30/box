@@ -8,13 +8,16 @@
 	import {onMount} from 'svelte'
 	import {push} from 'svelte-spa-router'
 	import {apiPassword} from '../api.js'
+	import {isLoading} from '../store.js'
 	let elPassword
 	let inputPassword = ''
 	onMount(() => {
 		elPassword.focus()
 	})
 	const cekPassword = () => {
+		$isLoading = true
 		fetch(apiPassword).then(x => x.json()).then(x => {
+			$isLoading = false
 			if (inputPassword == x) {
 				localStorage.setItem('password', inputPassword)
 				push('/')

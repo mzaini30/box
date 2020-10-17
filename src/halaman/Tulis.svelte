@@ -5,6 +5,7 @@
 	import {tanggal} from '../tanggal.js'
 	import {apiData} from '../api.js'
 	import {push} from 'svelte-spa-router'
+	import {isLoading} from '../store.js'
 	let elIsi
 	let elJudul
 	let judul = ''
@@ -17,7 +18,9 @@
 		window.addEventListener('resize', ukuranIsi)
 	})
 	const submit = () => {
+		$isLoading = true
 		fetch(apiData).then(x => x.json()).then(x => {
+			$isLoading = false
 			x.push({
 				waktu: tanggal(),
 				judul,
@@ -26,10 +29,14 @@
 			})
 			let body = new FormData
 			body.append('json', JSON.stringify(x))
+			$isLoading = true
 			fetch(`${apiData}/ubah`, {
 				method: 'post',
 				body
-			}).then(() => push(`/${slugify(judul)}`))
+			}).then(() => {
+				$isLoading = false
+				push(`/${slugify(judul)}`)
+			})
 		})
 	}
 </script>

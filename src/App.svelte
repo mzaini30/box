@@ -6,6 +6,8 @@
 	import Tampil from './halaman/Tampil.svelte'
 	import Edit from './halaman/Edit.svelte'
 	import Cari from './halaman/Cari.svelte'
+	import Loading from './Loading.svelte'
+	import {isLoading} from './store.js'
 	const routes = {
 		'/': Beranda,
 		'/login': Login,
@@ -15,4 +17,7 @@
 		'/:slug/edit': Edit
 	}
 </script>
+{#if $isLoading}
+	<Loading/>
+{/if}
 <Router {routes}/>

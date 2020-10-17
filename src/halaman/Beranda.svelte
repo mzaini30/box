@@ -22,11 +22,14 @@
 	import {push} from 'svelte-spa-router'
 	import {cekPassword} from '../cekPassword.js'
 	import {apiData} from '../api.js'
+	import {isLoading} from '../store.js'
 	let data = []
 	let cari = ''
 	onMount(() => {
 		cekPassword()
+		$isLoading = true
 		fetch(apiData).then(x => x.json()).then(x => {
+			$isLoading = false
 			data = x.reverse()
 		})
 	})

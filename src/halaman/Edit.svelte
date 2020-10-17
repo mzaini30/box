@@ -5,6 +5,7 @@
 	import {tanggal} from '../tanggal.js'
 	import {apiData} from '../api.js'
 	import {push} from 'svelte-spa-router'
+	import {isLoading} from '../store.js'
 	export let params
 	let elIsi
 	let elJudul
@@ -16,23 +17,31 @@
 		const ukuranIsi = () => elIsi.style.height = `${window.innerHeight - 120}px`
 		ukuranIsi()
 		window.addEventListener('resize', ukuranIsi)
+		$isLoading = true
 		fetch(apiData).then(x => x.json()).then(x => {
+			$isLoading = false
 			x = x.filter(y => y.slug == params.slug)[0]
 			judul = x.judul
 			isi = x.isi
 		})
 	})
 	const submit = () => {
+		$isLoading = true
 		fetch(apiData).then(x => x.json()).then(x => {
+			$isLoading = false
 			let index = x.findIndex(y => y.slug == params.slug)
 			x[index].judul = judul
 			x[index].isi = isi
 			let body = new FormData
 			body.append('json', JSON.stringify(x))
+			$isLoading = true
 			fetch(`${apiData}/ubah`, {
 				method: 'post',
 				body
-			}).then(() => push(`/${params.slug}`))
+			}).then(() => {
+				$isLoading = false
+				push(`/${params.slug}`)
+			})
 		})
 	}
 </script>

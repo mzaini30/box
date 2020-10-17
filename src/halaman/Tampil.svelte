@@ -17,6 +17,7 @@
 	import {apiData} from '../api.js'
 	import {cekPassword} from '../cekPassword.js'
 	import {push} from 'svelte-spa-router'
+	import {isLoading} from '../store.js'
 	export let params
 	let data = {
 		judul: '',
@@ -26,20 +27,28 @@
 	const hapus = () => {
 		let tanya = confirm('Hapus kah?')
 		if (tanya) {
+			$isLoading = true
 			fetch(apiData).then(x => x.json()).then(z => {
+				$isLoading = false
 				z = z.filter(y => y.slug != params.slug)
 				let body = new FormData
 				body.append('json', JSON.stringify(z))
+				$isLoading = true
 				fetch(`${apiData}/ubah`, {
 					method: 'post',
 					body
-				}).then(() => push('/'))
+				}).then(() => {
+					$isLoading = false
+					push('/')
+				})
 			})
 		}
 	}
 	onMount(() => {
 		cekPassword()
+		$isLoading = true
 		fetch(apiData).then(x => x.json()).then(x => {
+			$isLoading = false
 			x = x.filter(y => y.slug == params.slug)
 			data = x[0]
 			data.isi = marked(x[0].isi)

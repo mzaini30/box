@@ -1,4 +1,4 @@
-<script type="text/javascript">
+<script type="text/javascript"> 
 	import Router from 'svelte-spa-router'
 	import Beranda from './halaman/Beranda.svelte'
 	import Login from './halaman/Login.svelte'

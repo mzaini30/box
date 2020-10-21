@@ -21,6 +21,7 @@
 	import {push} from 'svelte-spa-router'
 	import {cekPassword} from '../cekPassword.js'
 	import {apiData} from '../api.js'
+	import {atas} from '@/atas.js'
 	import {semuaPostingan} from '@/store.js'
 	export let params
 	let data = []
@@ -31,6 +32,7 @@
 		elCari.focus()
 		cari = decodeURIComponent(params.cari)
 	})
+	$: data ? atas() : ""
 	$: if (params){
 		let yangDicari = decodeURIComponent(params.cari)
 		if ($semuaPostingan == '') {

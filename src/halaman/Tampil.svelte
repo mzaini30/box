@@ -17,7 +17,7 @@
 	import {apiData} from '../api.js'
 	import {cekPassword} from '../cekPassword.js'
 	import {push} from 'svelte-spa-router'
-	import {isLoading} from '../store.js'
+	import {isLoading, semuaPostingan} from '../store.js'
 	export let params
 	let data = {
 		judul: '',

@@ -22,16 +22,21 @@
 	import {push} from 'svelte-spa-router'
 	import {cekPassword} from '../cekPassword.js'
 	import {apiData} from '../api.js'
-	import {isLoading} from '../store.js'
+	import {isLoading, semuaPostingan} from '../store.js'
 	let data = []
 	let cari = ''
 	onMount(() => {
 		cekPassword()
+		if ($semuaPostingan == ""){
 		 $isLoading = true
 	  	 fetch(apiData).then(x => x.json()).then(x => {
 			$isLoading = false
-			data = x.reverse()
+			data = x
+			$semuaPostingan = x
 		 })
+		} else {
+			data = $semuaPostingan
+		}
 	})
 	const mulaiCari = () => {
 		push(`/cari/${encodeURIComponent(cari)}`)

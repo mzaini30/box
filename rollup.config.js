@@ -1,9 +1,10 @@
 import svelte from 'rollup-plugin-svelte';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
+import alias from '@rollup/plugin-alias';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
-import modify from 'rollup-plugin-modify';
+import path from "path"
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -37,9 +38,13 @@ export default {
         file: 'public/build/bundle.js'
     },
     plugins: [
-        modify({
-            find: /['"]http.*?['"]/,
-            replace: x => 'atob(' + JSON.stringify(Buffer.from(x.replace(/'/g, '').replace(/"/g, '')).toString('base64')) + ')'
+        alias({
+        	entries: [
+        		{
+        			find: "@",
+        			replacement: path.resolve(__dirname, "src/")
+        		}
+        	]
         }),
         svelte({
             // enable run-time checks when not in production

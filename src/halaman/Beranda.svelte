@@ -22,9 +22,11 @@
 	import {push} from 'svelte-spa-router'
 	import {cekPassword} from '../cekPassword.js'
 	import {apiData} from '../api.js'
+	import {atas} from '@/atas.js'
 	import {isLoading, semuaPostingan} from '../store.js'
 	let data = []
 	let cari = ''
+	$: data ? atas() : ""
 	onMount(() => {
 		cekPassword()
 		if ($semuaPostingan == ""){

@@ -4,7 +4,7 @@
 	<hr>
 	<p><code>{data.waktu}</code></p>
 	<div class="isinya">
-		{@html data.isi}
+		{@html data.isiRender}
 	</div>
 </div>
 <div class="bawah">
@@ -14,6 +14,7 @@
 </div>
 <script type="text/javascript">
 	import {onMount} from 'svelte'
+	import {atas} from '@/atas.js'
 	import {apiData} from '../api.js'
 	import {cekPassword} from '../cekPassword.js'
 	import {push} from 'svelte-spa-router'
@@ -22,8 +23,9 @@
 	let data = {
 		judul: '',
 		waktu: '',
-		isi: ''
+		isiRender: ''
 	}
+	$: data ? atas() : ""
 	const hapus = () => {
 		let tanya = confirm('Hapus kah?')
 		if (tanya) {
@@ -54,12 +56,12 @@
 				$semuaPostingan = x
 				x = x.filter(y => y.slug == params.slug)
 				data = x[0]
-				data.isi = marked(x[0].isi)
+				data.isiRender = marked(x[0].isi)
 			})
 		} else {
 			let x = $semuaPostingan.filter(y => y.slug == params.slug)
 			data = x[0]
-			data.isi = marked(x[0].isi)
+			data.isiRender = marked(x[0].isi)
 		}
 	})
 </script>

@@ -5,7 +5,7 @@
 	import {tanggal} from '../tanggal.js'
 	import {apiData} from '../api.js'
 	import {push} from 'svelte-spa-router'
-	import {isLoading} from '../store.js'
+	import {isLoading, semuaPostingan} from '../store.js'
 	let elIsi
 	let elJudul
 	let judul = ''
@@ -21,12 +21,14 @@
 		$isLoading = true
 		fetch(apiData).then(x => x.json()).then(x => {
 			$isLoading = false
-			x.push({
+			let dataBaru = {
 				waktu: tanggal(),
 				judul,
 				isi,
 				slug: slugify(judul)
-			})
+			}
+			x = [dataBaru, ...x]
+			$semuaPostingan = x
 			let body = new FormData
 			body.append('json', JSON.stringify(x))
 			$isLoading = true

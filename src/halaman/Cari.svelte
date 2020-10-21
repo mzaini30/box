@@ -21,6 +21,7 @@
 	import {push} from 'svelte-spa-router'
 	import {cekPassword} from '../cekPassword.js'
 	import {apiData} from '../api.js'
+	import {semuaPostingan} from '@/store.js'
 	export let params
 	let data = []
 	let cari = ''
@@ -32,15 +33,26 @@
 	})
 	$: if (params){
 		let yangDicari = decodeURIComponent(params.cari)
-		fetch(apiData).then(x => x.json()).then(x => {
-			data = x.reverse().filter(y => y.judul.toLowerCase().includes(yangDicari.toLowerCase()) || y.isi.toLowerCase().includes(yangDicari.toLowerCase()))
+		if ($semuaPostingan == '') {
+			fetch(apiData).then(x => x.json()).then(x => {
+				$semuaPostingan = x
+				data = x.filter(y => y.judul.toLowerCase().includes(yangDicari.toLowerCase()) || y.isi.toLowerCase().includes(yangDicari.toLowerCase()))
+				if (data.length == 0) {
+					data = [{
+						slug: '',
+						judul: `${yangDicari} tidak ditemukan`
+					}]
+				}
+			})
+		} else {
+			data = $semuaPostingan.filter(y => y.judul.toLowerCase().includes(yangDicari.toLowerCase()) || y.isi.toLowerCase().includes(yangDicari.toLowerCase()))
 			if (data.length == 0) {
 				data = [{
 					slug: '',
 					judul: `${yangDicari} tidak ditemukan`
 				}]
 			}
-		})
+		}
 	}
 	const mulaiCari = () => {
 		push(`/cari/${encodeURIComponent(cari)}`)

@@ -31,6 +31,7 @@
 			fetch(apiData).then(x => x.json()).then(z => {
 				$isLoading = false
 				z = z.filter(y => y.slug != params.slug)
+				$semuaPostingan = z
 				let body = new FormData
 				body.append('json', JSON.stringify(z))
 				$isLoading = true
@@ -46,13 +47,20 @@
 	}
 	onMount(() => {
 		cekPassword()
-		$isLoading = true
-		fetch(apiData).then(x => x.json()).then(x => {
-			$isLoading = false
-			x = x.filter(y => y.slug == params.slug)
+		if ($semuaPostingan == '') {
+			$isLoading = true
+			fetch(apiData).then(x => x.json()).then(x => {
+				$isLoading = false
+				$semuaPostingan = x
+				x = x.filter(y => y.slug == params.slug)
+				data = x[0]
+				data.isi = marked(x[0].isi)
+			})
+		} else {
+			let x = $semuaPostingan.filter(y => y.slug == params.slug)
 			data = x[0]
 			data.isi = marked(x[0].isi)
-		})
+		}
 	})
 </script>
 <style type="text/css">

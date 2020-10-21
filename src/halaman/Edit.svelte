@@ -5,7 +5,7 @@
 	import {tanggal} from '../tanggal.js'
 	import {apiData} from '../api.js'
 	import {push} from 'svelte-spa-router'
-	import {isLoading} from '../store.js'
+	import {isLoading, semuaPostingan} from '../store.js'
 	export let params
 	let elIsi
 	let elJudul
@@ -17,13 +17,20 @@
 		const ukuranIsi = () => elIsi.style.height = `${window.innerHeight - 120}px`
 		ukuranIsi()
 		window.addEventListener('resize', ukuranIsi)
-		$isLoading = true
-		fetch(apiData).then(x => x.json()).then(x => {
-			$isLoading = false
-			x = x.filter(y => y.slug == params.slug)[0]
+		if ($semuaPostingan == '') {
+			$isLoading = true
+			fetch(apiData).then(x => x.json()).then(x => {
+				$isLoading = false
+				$semuaPostingan = x
+				x = x.filter(y => y.slug == params.slug)[0]
+				judul = x.judul
+				isi = x.isi
+			})
+		} else {
+			let x = $semuaPostingan.filter(y => y.slug == params.slug)[0]
 			judul = x.judul
 			isi = x.isi
-		})
+		}
 	})
 	const submit = () => {
 		$isLoading = true
@@ -32,6 +39,7 @@
 			let index = x.findIndex(y => y.slug == params.slug)
 			x[index].judul = judul
 			x[index].isi = isi
+			$semuaPostingan = x
 			let body = new FormData
 			body.append('json', JSON.stringify(x))
 			$isLoading = true

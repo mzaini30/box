@@ -8,6 +8,7 @@
 	import Cari from './halaman/Cari.svelte'
 	import Loading from './Loading.svelte'
 	import {isLoading} from './store.js'
+	import {atas} from '@/atas.js'
 	const routes = {
 		'/': Beranda,
 		'/login': Login,

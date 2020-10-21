@@ -27,11 +27,11 @@
 	let cari = ''
 	onMount(() => {
 		cekPassword()
-		$isLoading = true
-		fetch(apiData).then(x => x.json()).then(x => {
+		 $isLoading = true
+	  	 fetch(apiData).then(x => x.json()).then(x => {
 			$isLoading = false
 			data = x.reverse()
-		})
+		 })
 	})
 	const mulaiCari = () => {
 		push(`/cari/${encodeURIComponent(cari)}`)
